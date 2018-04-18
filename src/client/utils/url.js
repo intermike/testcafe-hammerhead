@@ -27,7 +27,10 @@ export function getProxyUrl (url, opts) {
     const proxyPort     = opts && opts.proxyPort || location.port.toString();
     /*eslint-enable no-restricted-properties*/
 
-    const proxyProtocol = parsedResourceType.isWebSocket ? 'ws:' : void 0;
+    const originalProtocol  = opts && opts.proxyProtocol || location['proto' + 'col'];
+    const webSocketProtocol = originalProtocol === 'https:' ? 'wss:' : 'ws:';
+    const proxyProtocol     = parsedResourceType.isWebSocket ? webSocketProtocol : originalProtocol;
+
     const sessionId     = opts && opts.sessionId || settings.get().sessionId;
     let charset         = opts && opts.charset;
     let reqOrigin       = opts && opts.reqOrigin;
